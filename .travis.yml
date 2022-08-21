@@ -12,6 +12,9 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
+  verbose: true
+  keep_history: false
   local_dir: dist-docs
+  target_branch: gh-pages
   on:
     branch: master
