@@ -12,7 +12,6 @@ const cssWrapper = {
   padding: '10px 20px',
 }
 
-// https://elprosystem404.github.io/react-eform-control
 export default function Button({ text }) {
   return <button className={cssWrapper} >{text}</button>;
 }
