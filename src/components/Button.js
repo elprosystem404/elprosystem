@@ -2,7 +2,7 @@ import React from "react";
 
 const cssWrapper = {
   textTransform: 'uppercase',
-  fontSize: '1.5em',
+  fontSize: '1.6em',
   fontWeight: 'bold',
   letterSpacing: '4px',
   background: '#5cdb95',
