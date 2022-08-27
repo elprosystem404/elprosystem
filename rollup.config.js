@@ -1,129 +1,40 @@
-import babel from "rollup-plugin-babel";
-import commonjs from "rollup-plugin-commonjs";
-import resolve from "rollup-plugin-node-resolve";
-import external from "rollup-plugin-peer-deps-external";
-import { terser } from "rollup-plugin-terser";
-import { uglify } from "rollup-plugin-uglify";
-import packageJSON from "./package.json";
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import typescript from "rollup-plugin-typescript2";
+import postcss from "rollup-plugin-postcss";
 
+import { fileURLToPath } from "url";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const packageJson = require("./package.json");
 const input = "./src/index.js";
-const minifyExtension = pathToFile => pathToFile.replace(/\.js$/, ".min.js");
 
-
-export default [
-  // CommonJS
-  {
-    input,
-    output: {
-      file: packageJSON.main,
+export default {
+  input,
+  output: [
+    {
+      file: packageJson.main,
       format: "cjs",
-      sourcemap: true,
+      sourcemap: true
     },
-    plugins: [
-      babel({
-        exclude: "node_modules/**"
-      }),
-      external(),
-      resolve(),
-      commonjs()
-    ]
-  },
-  {
-    input,
-    output: {
-      file: minifyExtension(packageJSON.main),
-      format: "cjs",
-      sourcemap: true,
-    },
-    plugins: [
-      babel({
-        exclude: "node_modules/**"
-      }),
-      external(),
-      resolve(),
-      commonjs(),
-      uglify()
-    ]
-  },
-  // UMD
-  {
-    input,
-    output: {
-      file: packageJSON.browser,
-      format: "umd",
-      sourcemap: true,
-      name: "reactSampleComponentsLibrary",
-      globals: {
-        react: "React",
-        // "@emotion/styled": "styled",
-        // "@emotion/core": "core"
-      }
-    },
-    plugins: [
-      babel({
-        exclude: "node_modules/**"
-      }),
-      external(),
-      resolve(),
-      commonjs()
-    ]
-  },
-  {
-    input,
-    output: {
-      file: minifyExtension(packageJSON.browser),
-      format: "umd",
-      sourcemap: true,
-      name: "reactSampleComponentsLibrary",
-      globals: {
-        react: "React",
-        // "@emotion/styled": "styled",
-        // "@emotion/core": "core"
-      }
-    },
-    plugins: [
-      babel({
-        exclude: "node_modules/**"
-      }),
-      external(),
-      resolve(),
-      commonjs(),
-      terser()
-    ]
-  }, // ES
-  {
-    input,
-    output: {
-      file: packageJSON.module,
-      format: "es",
-      exports: "named",
-      sourcemap: true,
-    },
-    plugins: [
-      babel({
-        exclude: "node_modules/**"
-      }),
-      external(),
-      resolve(),
-      commonjs()
-    ]
-  },
-  {
-    input,
-    output: {
-      file: minifyExtension(packageJSON.module),
-      format: "es",
-      exports: "named",
-      sourcemap: true,
-    },
-    plugins: [
-      babel({
-        exclude: "node_modules/**"
-      }),
-      external(),
-      resolve(),
-      commonjs(),
-      terser()
-    ]
-  }
-];
+    {
+      file: packageJson.module,
+      format: "esm",
+      sourcemap: true
+    }
+  ],
+  plugins: [
+    peerDepsExternal(),
+    resolve(),
+    commonjs(),
+    typescript({
+      useTsconfigDeclarationDir: true,
+      tsconfig: path.resolve(__dirname, 'tsconfig.json'),
+    }),
+    postcss()
+  ]
+};
