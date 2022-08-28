@@ -1,25 +1,32 @@
 {
   "name": "react-eform-control",
-  "version": "2.0.5",
-  "description": "",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "browser": "dist/index.umd.js",
-  "files": [
-    "dist"
-  ],
-  "source": "src/index.ts",
-  "types": "dist/index.d.ts",
+  "version": "2.1.0",
+  "description": "Application totally inspired by react-hook-form as study material",
+  "main": "dist/cjs/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
-    "prepublishOnly": "npm run build",
+    "build": "npm run rollup && npm run post:build",
+    "post:build": "node ./scripts/frankBuild.js",
+    "rollup": "rm -rf dist && rollup -c",
+    "prepublishOnly": "rm -rf dist && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/elprosystem404/react-eform-control"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "hooks",
+    "form",
+    "forms",
+    "form-validation",
+    "validation",
+    "typescript",
+    "javascript",
+    "react-hooks"
+  ],
   "author": "elprosystem",
   "license": "ISC",
   "devDependencies": {
@@ -29,13 +36,17 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^2.78.1",
+    "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.33.0",
+    "rollup-plugin-generate-package-json": "^3.2.0",
     "typescript": "^4.8.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17 || ^18",
     "react-dom": "^16.8.0 || ^17 || ^18"
-  }
+  },
+  "dependencies": {}
 }
