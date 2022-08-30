@@ -18,8 +18,8 @@ async function createPackageFile() {
     ...packageOthers,
     private: false,
     typings: './index.d.ts',
-    main: './cjs/index.js',
-    module: './index.js',
+    main: './index.cjs.js',
+    module: './index.esm.js',
   };
 
   const targetPath = resolve(distPath, './package.json');
@@ -39,7 +39,7 @@ async function run() {
   try {
     await createPackageFile();
     await includeFileInBuild('./README.md');
-    // await includeFileInBuild('../../LICENSE');
+    await includeFileInBuild('./LICENSE');
   } catch (err) {
     console.error(err);
     process.exit(1);
